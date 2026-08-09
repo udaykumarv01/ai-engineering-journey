@@ -1,0 +1,95 @@
+print("----------------Decorators in Python-----------------")
+
+print("-------------normal decorator-----------------")
+
+def div (a, b):
+    print(a / b)
+
+def smart_div(func):
+    def inner(a,b):
+        if a<b:
+            a, b = b, a
+        return func(a,b)
+    return inner
+
+S = smart_div(div)
+S(5,10)
+
+print("---------------modified decorator rule-----------------")
+
+def smart_div(func):
+    def inner(a,b):
+        if a<b:
+            a, b = b, a
+        return func(a,b)
+    return inner
+
+@smart_div
+def divide(a,b):
+    print(a/b)
+
+divide(2,4)
+
+print("---------------decorator with arguments-----------------")
+
+def decorator(func):
+
+    def wrapper(*args, **kwargs):
+        print("Before")
+
+        result = func(*args, **kwargs)
+        
+
+        print("After")
+
+        return result
+
+    return wrapper
+@decorator
+def add(a, b):
+    return a + b
+print(add(2, 3))
+
+
+print("---------------decorator with arguments and wraps-----------------")
+
+from functools import wraps
+
+def decorator(func):
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+
+        print("Before")
+
+        print("After")
+
+        return func(*args, **kwargs)
+
+    return wrapper
+
+@decorator
+def add(a, b):
+    return a + b
+print(add(2, 3))
+
+print("---------------Advanced decorator with its own arguments -----------------")
+
+def repeat(times):
+
+    def decorator(func):
+
+        def wrapper(*args, **kwargs):
+
+            for i in range(times):
+                func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+@repeat(3)
+def greet(name):
+    print(f"Hello, {name}!")
+
+greet("Uday")
