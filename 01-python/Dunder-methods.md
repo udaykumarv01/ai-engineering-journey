@@ -142,6 +142,7 @@ So:
 a + b
  ↓
 a.__add__(b)
+
 6. Other important dunder methods
 
 You don't need to memorize all of them.
