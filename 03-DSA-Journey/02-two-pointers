@@ -1,0 +1,238 @@
+TWO POINTERS IN PYTHON — Strong DSA Foundation
+1. First: What is a pointer in Python?
+
+Consider:
+
+nums = [10, 20, 30, 40, 50]
+
+You can access elements using indices:
+
+index:   0   1   2   3   4
+         ↓   ↓   ↓   ↓   ↓
+nums = [10, 20, 30, 40, 50]
+
+We can create two variables:
+
+left = 0
+right = len(nums) - 1
+
+So:
+
+left  → index 0 → 10
+right → index 4 → 50
+
+Then:
+
+nums[left]
+nums[right]
+
+give:
+
+10
+50
+
+These left and right variables are what we commonly call two pointers in Python DSA.
+
+They are really indices/positions, not C-style memory pointers.
+
+2. C/C++ pointer vs Python "pointer"
+C
+
+You might do:
+
+int x = 10;
+int *p = &x;
+
+Here p contains a memory address.
+
+You can even do pointer arithmetic:
+
+p++;
+Python
+
+You normally do:
+
+left = 0
+right = len(nums) - 1
+
+And move them:
+
+left += 1
+right -= 1
+
+You are moving through positions in the data, not manipulating memory addresses.
+
+So remember:
+C/C++ pointer
+      ↓
+memory address
+
+
+Python DSA "pointer"
+      ↓
+position / index / reference
+
+This distinction is VERY important.
+
+Pattern 1 — Opposite-direction pointers
+
+This is the most important pattern.
+
+left = 0
+right = len(nums) - 1
+
+
+while left < right:
+    ...
+
+Usually:
+
+left += 1
+
+or
+
+right -= 1
+Example: Reverse an array
+nums = [1, 2, 3, 4, 5]
+
+
+left = 0
+right = len(nums) - 1
+
+
+while left < right:
+    nums[left], nums[right] = nums[right], nums[left]
+
+
+    left += 1
+    right -= 1
+
+
+print(nums)
+
+Output:
+
+[5, 4, 3, 2, 1]
+What happened?
+
+Initially:
+
+left = 0 → 1
+right = 4 → 5
+
+Swap:
+
+[5, 2, 3, 4, 1]
+
+Move:
+
+left = 1
+right = 3
+
+Swap:
+
+[5, 4, 3, 2, 1]
+
+Move:
+
+left = 2
+right = 2
+
+Stop because:
+
+left < right
+
+is false.
+
+Complexity
+Time  → O(n)
+Space → O(1)
+
+This is much better than creating another reversed list if the problem asks for in-place modification.
+
+5. Pattern 2 — Two Sum in a SORTED array
+
+This is one of the most important two-pointer problems.
+
+Suppose:
+
+nums = [1, 2, 4, 6, 8, 9]
+target = 10
+
+We want two numbers whose sum is 10.
+
+Start:
+
+left                  right
+ ↓                       ↓
+[1, 2, 4, 6, 8, 9]
+
+Calculate:
+
+nums[left] + nums[right]
+1 + 9 = 10
+
+Found!
+
+What if the sum is too small?
+
+Suppose:
+
+1 + 8 = 9
+
+We need a larger sum.
+
+Because the array is sorted, move:
+
+left += 1
+
+Why?
+
+1 → 2
+
+increases the sum.
+
+What if the sum is too large?
+
+Suppose:
+
+4 + 9 = 13
+
+We need a smaller sum.
+
+Move:
+
+right -= 1
+
+Because:
+
+9 → 8
+
+decreases the sum.
+
+Code
+nums = [1, 2, 4, 6, 8, 9]
+target = 10
+
+
+left = 0
+right = len(nums) - 1
+
+
+while left < right:
+    total = nums[left] + nums[right]
+
+
+    if total == target:
+        print(left, right)
+        break
+
+
+    elif total < target:
+        left += 1
+
+
+    else:
+        right -= 1
+
+This is a core two-pointer pattern.
