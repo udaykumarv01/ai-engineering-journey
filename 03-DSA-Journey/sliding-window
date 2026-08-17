@@ -1,0 +1,233 @@
+🪟 SLIDING WINDOW — Python DSA
+1. What is Sliding Window?
+Sliding Window is a technique used mainly when a problem asks about a continuous part of an array or string.
+For example:
+nums = [2, 1, 5, 1, 3, 2]
+A window of size 3 can be:
+[2, 1, 5] 1  3  2
+ ↓     ↓
+left  right
+
+ 2 [1, 5, 1] 3  2
+
+ 2  1 [5, 1, 3] 2
+
+ 2  1  5 [1, 3, 2]
+Instead of calculating every window from scratch, we slide the window.
+That's why it is called Sliding Window.
+2. Why do we need it?
+Suppose:
+nums = [2, 1, 5, 1, 3, 2]
+k = 3
+Find the maximum sum of any 3 consecutive elements.
+Brute force
+You could calculate:
+2 + 1 + 5 = 8
+1 + 5 + 1 = 7
+5 + 1 + 3 = 9
+1 + 3 + 2 = 6
+But imagine n = 1,000,000.
+Repeatedly calculating every window wastes work.
+3. The main idea
+First window:
+[2, 1, 5] 1 3 2
+Sum:
+8
+Now move the window one position:
+2 [1, 5, 1] 3 2
+Instead of:
+1 + 5 + 1
+again, do:
+old sum
+- element leaving
++ element entering
+So:
+8 - 2 + 1 = 7
+Next:
+7 - 1 + 3 = 9
+Next:
+9 - 5 + 2 = 6
+🔥 This is the fundamental idea of a fixed-size Sliding Window.
+4. Basic Fixed Window Template
+left = 0
+window_sum = 0
+answer = 0
+
+for right in range(len(nums)):
+
+    window_sum += nums[right]
+
+    if right - left + 1 == k:
+
+        answer = max(answer, window_sum)
+
+        window_sum -= nums[left]
+        left += 1
+Understand these three things:
+right
+expands the window.
+left
+shrinks the window.
+right - left + 1
+is the current window size.
+5. Example
+nums = [2, 1, 5, 1, 3, 2]
+k = 3
+
+left = 0
+window_sum = 0
+answer = 0
+
+for right in range(len(nums)):
+
+    window_sum += nums[right]
+
+    if right - left + 1 == k:
+
+        answer = max(answer, window_sum)
+
+        window_sum -= nums[left]
+        left += 1
+
+print(answer)
+Output:
+9
+Complexity
+Time  → O(n)
+Space → O(1)
+This is much better than checking every window independently.
+6. Fixed Window vs Variable Window
+This distinction is very important.
+Fixed Window
+Window size is given.
+Example:
+Find maximum sum of k consecutive elements.
+Here:
+window size = k
+Pattern:
+if right - left + 1 == k:
+Variable Window
+Window size changes depending on a condition.
+Example:
+Find the longest substring without repeating characters.
+The window may be:
+"a"
+"ab"
+"abc"
+"abca" ❌
+When the condition becomes invalid, move left.
+This is where Sliding Window becomes more powerful.
+7. Variable Sliding Window
+Consider:
+s = "abcabcbb"
+We want:
+Longest substring without repeating characters.
+Start:
+abc
+Then:
+abca
+a is repeated.
+So we shrink from the left:
+bca
+Then continue.
+The window is always:
+[left ........ right]
+
+When should you think "Sliding Window"?
+Look for words like:
+Arrays
+contiguous
+consecutive
+subarray
+continuous
+window
+longest
+shortest
+maximum/minimum sum of consecutive elements
+Strings
+substring
+longest substring
+shortest substring
+characters
+distinct characters
+frequency
+These are strong signals.
+19. When Sliding Window DOESN'T work directly
+Be careful.
+Sliding Window generally works best when you're dealing with a contiguous range.
+For example:
+subarray
+substring
+consecutive elements
+But:
+subsequence
+doesn't necessarily mean contiguous.
+Example:
+"abcde"
+"ace" is a subsequence but not a contiguous substring.
+Don't automatically use Sliding Window just because you see "longest."
+🔥 Your Sliding Window Template
+Fixed Window
+left = 0
+
+for right in range(len(nums)):
+
+    # add right
+
+    if right - left + 1 == k:
+
+        # calculate answer
+
+        # remove left
+        left += 1
+Variable Window
+left = 0
+
+for right in range(len(nums)):
+
+    # add right
+
+    while invalid:
+
+        # remove left
+        left += 1
+
+    # calculate answer
+Memorize the structure, not the exact code.
+🧠 Complexity
+A common question is:
+"There is a for loop and a while loop. Isn't that O(n²)?"
+Usually no.
+Consider:
+for right in range(n):
+
+    while invalid:
+        left += 1
+right moves from:
+0 → n
+and left also moves only:
+0 → n
+Each element enters and leaves the window at most once.
+Therefore:
+Time → O(n)
+Space → O(1)
+or:
+O(n)
+space if you're using a HashMap that can grow with the input.
+This is a very important interview concept.
+🎯 Problems you should solve
+Don't jump to hard problems immediately.
+Level 1 — Fixed Window
+Maximum Average Subarray I
+Maximum Number of Vowels in a Substring of Given Length
+Find All Anagrams in a String
+Level 2 — Variable Window
+Longest Substring Without Repeating Characters
+Longest Repeating Character Replacement
+Max Consecutive Ones III
+Level 3 — Strong
+Minimum Size Subarray Sum
+Permutation in String
+Fruit Into Baskets
+Minimum Window Substring
+If you can solve 5, 6, 7, 8, and 10 while explaining why the window expands/shrinks, your Sliding Window understanding is strong.
