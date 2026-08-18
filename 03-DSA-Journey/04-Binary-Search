@@ -1,0 +1,159 @@
+1. What is Binary Search?
+
+Binary Search is a searching technique that repeatedly cuts the search space in half.
+
+Suppose:
+
+nums = [1, 3, 5, 7, 9, 11, 13]
+
+Find:
+
+target = 9
+
+Instead of checking:
+
+1 → 3 → 5 → 7 → 9
+
+we look at the middle.
+
+[1, 3, 5, 7, 9, 11, 13]
+          ↑
+        middle
+
+Middle is 7.
+
+Since:
+
+9 > 7
+
+we know everything to the left of 7 can be ignored.
+
+Now:
+
+[9, 11, 13]
+ ↑
+
+Middle is 11.
+
+Since:
+
+9 < 11
+
+ignore the right side.
+
+Now:
+
+[9]
+
+Found.
+
+2. The most important requirement
+The data normally needs to be sorted.
+
+For example:
+
+[1, 3, 5, 7, 9, 11]
+
+✅ Binary Search works naturally.
+
+But:
+
+[7, 1, 9, 3, 5]
+
+❌ You cannot directly use ordinary binary search because you don't know which half can be discarded.
+
+This is the first question you should ask:
+
+Is the search space sorted or does it have some monotonic property?
+
+3. The three variables
+
+The basic Binary Search uses:
+
+left
+right
+mid
+
+4. Basic Binary Search
+nums = [1, 3, 5, 7, 9, 11, 13]
+target = 9
+
+
+left = 0
+right = len(nums) - 1
+
+
+while left <= right:
+
+
+    mid = (left + right) // 2
+
+
+    if nums[mid] == target:
+        print(mid)
+        break
+
+
+    elif nums[mid] < target:
+        left = mid + 1
+
+
+    else:
+        right = mid - 1
+
+Output:
+
+4
+
+Because:
+
+nums[4] = 9
+
+5. Understand the three cases 🔥
+
+This is more important than memorizing the code.
+
+Case 1
+nums[mid] == target
+
+Found.
+
+return mid
+Case 2
+nums[mid] < target
+
+Target is larger.
+
+Because the array is sorted:
+
+everything LEFT of mid
+
+is also smaller.
+
+So:
+
+left = mid + 1
+Case 3
+nums[mid] > target
+
+Target is smaller.
+
+Ignore the right side:
+
+right = mid - 1
+
+Problems to practice
+Level 1 — Foundation
+1.Binary Search
+2.Search Insert Position
+3.Guess Number Higher or Lower
+4.First Bad Version
+Level 2 — Duplicates / boundaries
+1.Find First and Last Position of Element in Sorted Array
+2.Find Minimum in Rotated Sorted Array
+3.Search in Rotated Sorted Array
+Level 3 — Advanced
+1.Find Peak Element
+2.Koko Eating Bananas
+3.Capacity To Ship Packages Within D Days
+4.Split Array Largest Sum
