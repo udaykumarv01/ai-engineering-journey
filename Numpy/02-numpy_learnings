@@ -1,0 +1,222 @@
+# ============================================================
+# NUMPY - TODAY'S LEARNING
+# ============================================================
+
+import numpy as np
+
+
+# ============================================================
+# 1. Creating NumPy Arrays
+# ============================================================
+
+a = np.array((1, 2.5, 3, 4))
+
+print(a)
+print(a.dtype)
+
+# NumPy automatically selects a suitable dtype.
+# Since 2.5 is a float, the array becomes float64.
+
+
+# ============================================================
+# 2. ndmin - Minimum Number of Dimensions
+# ============================================================
+
+arr = np.array([1, 2, 3, 4], ndmin=3)
+
+print(arr)
+
+arr = np.array([[[1, 2, 3, 4]]], ndmin=2)
+
+print(arr)
+
+# ndmin specifies the minimum number of dimensions
+# the resulting array should have.
+
+
+# ============================================================
+# 3. Complex Data Type
+# ============================================================
+
+arr = np.array([1, 2, 3], dtype=complex)
+
+print(arr)
+
+# Output:
+# [1.+0.j 2.+0.j 3.+0.j]
+
+
+# ============================================================
+# 4. Copy vs Reference
+# ============================================================
+
+x = np.array([1, 2, 3])     # Original
+y = x                       # Reference
+z = np.copy(x)              # Independent copy
+
+x[0] = 10
+
+print("x:", x)
+print("y:", y)
+print("z:", z)
+
+# x and y refer to the same array.
+# Therefore, changing x also changes y.
+#
+# z is a separate copy, so it does not change.
+
+
+# ============================================================
+# 5. Writing NumPy Array to a Text File
+# ============================================================
+
+arr = np.array([10, 20, 30, 40, 50])
+
+np.savetxt("data.txt", arr, fmt="%d")
+
+# This creates a file named data.txt.
+
+
+# ============================================================
+# 6. Reading NumPy Array from a Text File
+# ============================================================
+
+my_list = np.loadtxt("data.txt", dtype=int)
+
+print(my_list)
+
+
+# Performing operations on the loaded data
+
+my_list = my_list ** 2
+
+print(my_list)
+
+# Output:
+# [ 100  400  900 1600 2500]
+
+
+# ============================================================
+# 7. Saving NumPy Array as .npy File
+# ============================================================
+
+arr = np.array([1, 2, 3, 4])
+
+np.save("array.npy", arr)
+
+
+# ============================================================
+# 8. Loading .npy File
+# ============================================================
+
+arr = np.load("array.npy")
+
+print(arr)
+
+# Output:
+# [1 2 3 4]
+
+
+# ============================================================
+# 9. np.fromfunction()
+# ============================================================
+
+arr = np.fromfunction(
+    lambda i, j: i == j,
+    (3, 3),
+    dtype=int
+)
+
+print(arr)
+
+# Creates an identity-style matrix using the condition i == j.
+
+
+# ============================================================
+# 10. np.fromstring()
+# ============================================================
+
+arr = np.fromstring(
+    "1 2",
+    dtype=int,
+    sep=" "
+)
+
+print(arr)
+
+# Output:
+# [1 2]
+
+
+arr = np.fromstring(
+    "1,2",
+    dtype=int,
+    sep=","
+)
+
+print(arr)
+
+# Output:
+# [1 2]
+
+
+# ============================================================
+# 11. Combining Lists using zip()
+# ============================================================
+
+x1 = [1, 2, 3]
+x2 = [4.0, 5.0, 6.0]
+x3 = ["a", "b", "c"]
+
+combined = list(zip(x1, x2, x3))
+
+print(combined)
+
+# Output:
+# [(1, 4.0, 'a'), (2, 5.0, 'b'), (3, 6.0, 'c')]
+
+
+# ============================================================
+# 12. Structured NumPy Array
+# ============================================================
+
+r = np.array(
+    list(zip(x1, x2, x3)),
+    dtype=[
+        ("a", "i4"),
+        ("b", "f4"),
+        ("c", "U1")
+    ]
+)
+
+print(r)
+
+
+# ============================================================
+# 13. Accessing a Field in Structured Array
+# ============================================================
+
+print(r["b"])
+
+# "a" -> 32-bit integer
+# "b" -> 32-bit floating point
+# "c" -> Unicode string
+
+
+# ============================================================
+# KEY TAKEAWAYS
+# ============================================================
+
+# 1. np.array()       -> Create NumPy arrays
+# 2. dtype            -> Check/control data type
+# 3. ndmin            -> Set minimum dimensions
+# 4. complex          -> Create complex-valued arrays
+# 5. np.copy()        -> Create an independent copy
+# 6. np.savetxt()     -> Write array to text file
+# 7. np.loadtxt()     -> Read array from text file
+# 8. np.save()        -> Save NumPy array as .npy
+# 9. np.load()        -> Load .npy file
+# 10. np.fromfunction()-> Create array using a function
+# 11. np.fromstring() -> Create array from string data
+# 12. zip()           -> Combine multiple lists
+# 13. Structured array -> Store different data types in named fields
